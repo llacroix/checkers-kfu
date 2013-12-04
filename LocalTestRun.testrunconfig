@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRunConfiguration name="Локальный тестовый запуск" id="88d7529f-14e5-46f8-af5f-451771a1349a" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>Конфигурация по умолчанию для локального тестового запуска.</Description>
+  <TestTypeSpecific />
+</TestRunConfiguration>

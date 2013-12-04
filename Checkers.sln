@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FA767647-800B-4147-9885-BBC1DD42E0CB}"
+	ProjectSection(SolutionItems) = preProject
+		Checkers.vsmdi = Checkers.vsmdi
+		Checkers1.vsmdi = Checkers1.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers", "Checkers\Checkers.csproj", "{4A17F5C8-FDFF-428F-9827-F6589F5D552F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCheckers", "TestCheckers\TestCheckers.csproj", "{4BB328D1-F9B4-43AE-A989-D7933C56FF66}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Checkers1.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A17F5C8-FDFF-428F-9827-F6589F5D552F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A17F5C8-FDFF-428F-9827-F6589F5D552F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A17F5C8-FDFF-428F-9827-F6589F5D552F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A17F5C8-FDFF-428F-9827-F6589F5D552F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
