@@ -24,5 +24,10 @@ namespace Checkers
             this.x = x;
             this.y = y;
         }
+
+        public void kill()
+        {
+            this.move(-1, -1);
+        }
     }
 }
