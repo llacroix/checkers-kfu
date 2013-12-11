@@ -10,6 +10,8 @@ using System.Threading;
 
 namespace Checkers
 {
+
+
     public partial class Form1 : Form
     {
         Graphics gPanel;
@@ -42,24 +44,24 @@ namespace Checkers
 
         public void Redraw()
         {
-            Enumerable.Range(0, table.size).ToList().
-                ForEach(x =>
-                    Enumerable.Range(0, table.size).ToList().
-                        ForEach(y =>
-                            DrawCell(x, y, (x + y) % 2 == 0 ? yellow : black)));
+            (from x in Enumerable.Range(0, table.size)
+             from y in Enumerable.Range(0, table.size)
+             select DrawCell(x, y, (x + y) % 2 == 0 ? yellow : black)).ToList();
 
             table.checkers
                 .ToList()
                 .ForEach(checker => DrawChecker(checker));
         }
 
-        public void DrawCell(int x, int y, SolidBrush color)
+        public int DrawCell(int x, int y, SolidBrush color)
         {
             gPanel.FillRectangle(color,
                                  x * side,
                                  y * side,
                                  side,
                                  side);
+
+            return 0;
 
         }
 
