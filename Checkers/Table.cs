@@ -18,8 +18,14 @@ namespace Checkers
             checkers = new HashSet<Checker>();
         }
 
+        /* Iterate over all X and Y in the grid
+         * Add a checkers to our grid. 
+         * We should end up with 12 checkers of each
+         * color.
+        */
         public void Init()
         {
+
            (from x in Enumerable.Range(0, size)
             from y in Enumerable.Range(0, size)
             select new Point(x, y)).ToList().
@@ -33,13 +39,18 @@ namespace Checkers
             });
         }
 
+        /* Add a checker to our checkers' set
+         */
         public void AddChecker(Checker checker) {
             checkers.Add(checker);
         }
 
+
+        /* Remove checker from our sets of checkers
+         * and kill it.
+         */
         public void RemoveChecker(Checker checker)
         {
-            // Safe check
             checker.kill();
             checkers.Remove(checker);
         }
@@ -77,11 +88,15 @@ namespace Checkers
             }
         }
 
+
         private bool Eat()
         {
             return false;
         }
 
+        /*
+         * Get the checker for the coordinate x and y
+         */
         public Checker GetChecker(int x, int y)
         {
             return (from checker in checkers
@@ -89,6 +104,10 @@ namespace Checkers
                     select checker).First();
         }
 
+        /*
+         * Returns a list of moves that can be achieved by the selected checker
+         * the list can be empty in case there is no moves.
+         */
         public List<Checkers.Point> GetMoves(Checker checker)
         {
             var current = new Point(checker.x, checker.y);

@@ -42,15 +42,20 @@ namespace Checkers
             Redraw();
         }
 
+        /* Redraw the whole board
+         * we aren't doing any kind of optimization
+         * simply redraw everything.
+         */
         public void Redraw()
         {
+            // Draw cells
             (from x in Enumerable.Range(0, table.size)
              from y in Enumerable.Range(0, table.size)
              select DrawCell(x, y, (x + y) % 2 == 0 ? yellow : black)).ToList();
 
-            table.checkers
-                .ToList()
-                .ForEach(checker => DrawChecker(checker));
+            // Draw checkers
+            table.checkers.ToList()
+                 .ForEach(checker => DrawChecker(checker));
         }
 
         public int DrawCell(int x, int y, SolidBrush color)
@@ -62,7 +67,6 @@ namespace Checkers
                                  side);
 
             return 0;
-
         }
 
         public void DrawChecker(Checker checker)
