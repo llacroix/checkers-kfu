@@ -20,18 +20,23 @@ namespace Checkers
 
         public void Init()
         {
-            // Init all checkers
-            for (int i = 0; i < 3; i++)
-                for(int j = i % 2; j < size; j+=2)
-                {
-                    AddChecker(new Checker(i, j, true));
-                }
 
-            for (int i = size - 1; i >= size - 3; i--)
-                for (int j = i % 2 + 1; j < size; j += 2)
+           Enumerable.Range(0, size).ToList().
+                ForEach(x =>
                 {
-                    AddChecker(new Checker(i, j, false));
-                }
+                    Enumerable.Range(0, size).ToList().
+                    ForEach(y =>
+                    {
+                        var test = (x + y) % 2 == 0;
+                        if (test)
+                        {
+                            if (y < 3)
+                                AddChecker(new Checker(x, y, true));
+                            else if (y > size - 4)
+                                AddChecker(new Checker(x, y, false));
+                        }
+                    });
+                });
         }
 
         public void AddChecker(Checker checker) {
@@ -90,7 +95,7 @@ namespace Checkers
                     select checker).First();
         }
 
-        public List<Point> GetMoves(Checker checker)
+        public List<Checkers.Point> GetMoves(Checker checker)
         {
             var current = new Point(checker.x, checker.y);
 

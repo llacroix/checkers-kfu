@@ -14,6 +14,7 @@ namespace Checkers
     {
         Graphics gPanel;
         float side;
+        Table table;
 
         SolidBrush black = new SolidBrush(Color.Black);
         SolidBrush red = new SolidBrush(Color.Red);
@@ -22,6 +23,9 @@ namespace Checkers
         public Form1()
         {
             InitializeComponent();
+            table = new Table(8);
+            table.Init();
+
             Thread t = new Thread(func1);
             t.Start();
         }
@@ -29,33 +33,34 @@ namespace Checkers
         public void func1()
         {
             Thread.Sleep(1000);
-            Table table = new Table(8);
 
             gPanel = pictureBox1.CreateGraphics();
             side = pictureBox1.Height / table.size;
 
-            for (int i = 0; i < table.size; i++)
-            {
-                for (int j = 0; j < table.size; j++)
-                {
-                    var color = (i + j) % 2 == 0 ? yellow : black;
-                    gPanel.FillRectangle(color, i * side,
-                                                j * side,
-                                                side,
-                                                side);
+            Redraw();
+        }
 
-
-                    if ((i + j) % 2 == 0)
-                        if (j < 3)
-                            table.checkers.Add(new Checker(i, j, true));
-                        else if (j > table.size - 4)
-                            table.checkers.Add(new Checker(i, j, false));
-                }
-            }
+        public void Redraw()
+        {
+            Enumerable.Range(0, table.size).ToList().
+                ForEach(x =>
+                    Enumerable.Range(0, table.size).ToList().
+                        ForEach(y =>
+                            DrawCell(x, y, (x + y) % 2 == 0 ? yellow : black)));
 
             table.checkers
                 .ToList()
                 .ForEach(checker => DrawChecker(checker));
+        }
+
+        public void DrawCell(int x, int y, SolidBrush color)
+        {
+            gPanel.FillRectangle(color,
+                                 x * side,
+                                 y * side,
+                                 side,
+                                 side);
+
         }
 
         public void DrawChecker(Checker checker)
