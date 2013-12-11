@@ -19,6 +19,13 @@ namespace Checkers
             this.white = white;
         }
 
+        public Checker(Point pos, bool white)
+        {
+            this.x = pos.x;
+            this.y = pos.y;
+            this.white = white;
+        }
+
         public void move(int x, int y)
         {
             this.x = x;

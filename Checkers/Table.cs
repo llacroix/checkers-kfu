@@ -20,21 +20,16 @@ namespace Checkers
 
         public void Init()
         {
-           (from x in Enumerable.Range(0, size).ToList()
-            from y in Enumerable.Range(0, size).ToList()
+           (from x in Enumerable.Range(0, size)
+            from y in Enumerable.Range(0, size)
             select new Point(x, y)).ToList().
             ForEach(point =>
             {
-                var x = point.x;
-                var y = point.y;
-                var test = (x + y) % 2 == 0;
-                if (test)
-                {
-                    if (y < 3)
-                        AddChecker(new Checker(x, y, true));
-                    else if (y > size - 4)
-                        AddChecker(new Checker(x, y, false));
-                }
+                if ((point.x + point.y) % 2 == 0)
+                    if (point.y < 3)
+                        AddChecker(new Checker(point, true));
+                    else if (point.y > size - 4)
+                        AddChecker(new Checker(point, false));
             });
         }
 
