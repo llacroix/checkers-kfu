@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FA767647-800B-4147-9885-BBC1DD42E0CB}"
 	ProjectSection(SolutionItems) = preProject
 		Checkers.vsmdi = Checkers.vsmdi
@@ -28,7 +28,6 @@ Global
 		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BB328D1-F9B4-43AE-A989-D7933C56FF66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

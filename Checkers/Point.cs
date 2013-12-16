@@ -7,6 +7,29 @@ namespace Checkers
 {
     public class Point
     {
+        protected bool Equals(Point other)
+        {
+            return x == other.x && y == other.y;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (x*397) ^ y;
+            }
+        }
+
+        public static bool operator ==(Point left, Point right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Point left, Point right)
+        {
+            return !Equals(left, right);
+        }
+
         public int x;
         public int y;
 
@@ -14,6 +37,13 @@ namespace Checkers
         {
             this.x = x;
             this.y = y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((Point) obj);
         }
     }
 }
