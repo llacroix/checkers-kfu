@@ -146,23 +146,9 @@ namespace Checkers
         {
             var resultsNums = new List<int>();
             var resultsCheckers = new List<Point>();
-            // Old brute force version
-            /*
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    if (!removedCheckers.Contains(GetChecker(i, j)))
-                    {
-                        resultsNums.Add(CanMove(checker, i, j, false));
-                        resultsCheckers.Add(new Point(i, j));
-                    }
-                }
-            }
-            */
-            // Does it work?
             
             var moves = GetMoves(checker);
+
             foreach (var point in moves.Where(point => !removedCheckers.Contains(GetChecker(point.x, point.y))))
             {
                 resultsNums.Add(CanMove(checker, point.x, point.y, false));
@@ -238,7 +224,6 @@ namespace Checkers
             else
             {
                 // check if it can eat
-
                 var toEat = CanEatAnotherChecker(checker, x, y);
                 if (toEat != null && !removedCheckers.Contains(toEat))
                 {

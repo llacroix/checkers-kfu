@@ -25,6 +25,8 @@ namespace Checkers
         SolidBrush yellow = new SolidBrush(Color.Yellow);
         SolidBrush blackChecker = new SolidBrush(Color.DarkSlateGray);
 
+        Bitmap canvas;
+
         private Game game;
         private Table table;
 
@@ -35,9 +37,19 @@ namespace Checkers
             game = new Game(8);
             table = game.table;
 
-            gPanel = pictureBox1.CreateGraphics();
+            //Redraw();
             side = pictureBox1.Height / game.table.size;
 
+            canvas = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            gPanel = Graphics.FromImage(canvas);
+
+            pictureBox1.Image = canvas;
+
+            Redraw();
+        }
+
+        public void RedrawBoard(object sender, EventArgs args)
+        {
             Redraw();
         }
 
@@ -60,6 +72,8 @@ namespace Checkers
             {
                 DrawSelection(game.selectedChecker);
             }
+
+            pictureBox1.Invalidate();
         }
 
         public int DrawCell(int x, int y, SolidBrush color)
@@ -126,13 +140,24 @@ namespace Checkers
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
+           
             var loc = new Point((int)((e.X) / side), (int)((e.Y) / side));
             label1.Text = game.firstPlayer ? "Red " : "Black " + e.X + " " + e.Y + " | " + loc.x + " " + loc.y;
 
-            game.HandleClick(loc);
 
-            labelBlack.Text = game.blackScore.ToString();
-            labelRed.Text = game.whiteScore.ToString();
+            if (game.HandleClick(loc))
+            {
+                labelBlack.Text = game.blackScore.ToString();
+                labelRed.Text = game.whiteScore.ToString();
+            }
+
+            var gameStatus = game.CheckGameOver();
+
+            if (gameStatus != 0)
+            {
+                GameOver(gameStatus > 0);
+            }
+
 
             Redraw();
         }

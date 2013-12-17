@@ -16,6 +16,7 @@ namespace Checkers
         public int blackScore = 0;
 
         public Checker selectedChecker;
+        public Checker movingChecker;
 
         public Game(int size)
         {
@@ -27,26 +28,47 @@ namespace Checkers
             Ate = false;
         }
 
-        private bool CheckGameOver()
+        // 1 White wins
+        // 0 Nobody wins
+        // -1 Black wins
+        public int CheckGameOver()
         {
             // TODO fix
             if (table.checkers.All(checker => checker.white))
             {
-                return true;
+                return 1;
             }
 
             if (table.checkers.All(checker => !checker.white))
             {
-                return false;
+                return -1;
             }
 
-            return false;
+            if (Blocked())
+            {
+                return firstPlayer ? -1 : 1;
+            }
+
+            return 0;
         }
 
         public void SwitchPlayer()
         {
             firstPlayer = !firstPlayer;
             selectedChecker = null;
+            movingChecker = null;
+        }
+
+        public bool Blocked()
+        {
+            var team = (from checker in table.checkers
+                        where checker.white == firstPlayer
+                        select checker).ToList();
+
+
+            return (from checker in team
+                    select (from move in table.GetMoves(checker)
+                            select table.CanMove(checker, move.x, move.y, false)).Sum()).Sum() == 0;
         }
 
         public void HandleRemovedCheckers()
@@ -62,8 +84,10 @@ namespace Checkers
             }
         }
 
-        public void HandleClick(Point loc)
+        public bool HandleClick(Point loc)
         {
+            bool didSomething = false;
+
             if (selectedChecker == null)
             {
                 selectedChecker = table.GetChecker(loc.x, loc.y);
@@ -72,7 +96,7 @@ namespace Checkers
             {
                 var movement = table.Move(selectedChecker, loc.x, loc.y);
                 // wtf
-                Ate = movement == 2;
+                Ate = (movement == 2);
 
                 if (movement != 0)
                 {
@@ -80,6 +104,7 @@ namespace Checkers
                     // If this move was "Eat"
                     if (Ate)
                     {
+                        movingChecker = selectedChecker;
                         // If selected checker can eat another time
                         if (!table.CanEat(table.GetChecker(loc.x, loc.y)))
                         {
@@ -93,12 +118,22 @@ namespace Checkers
                         table.removedCheckers.Clear();
                         SwitchPlayer();
                     }
+
+                    didSomething = true;
+                }
+                else
+                {
+                    var newPick = table.GetChecker(loc.x, loc.y);
+                    if (newPick != null && newPick.white == selectedChecker.white && movingChecker == null)
+                        selectedChecker = newPick;
                 }
             }
             else
             {
                 selectedChecker = null;
             }
+
+            return didSomething;
         }
     }
 }
