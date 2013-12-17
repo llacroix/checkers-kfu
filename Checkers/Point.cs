@@ -28,7 +28,7 @@ namespace Checkers
         public static bool operator !=(Point left, Point right)
         {
             return !Equals(left, right);
-        }
+        } 
 
         public int x;
         public int y;

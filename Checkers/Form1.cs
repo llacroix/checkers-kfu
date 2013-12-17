@@ -15,36 +15,29 @@ namespace Checkers
 
     public partial class Form1 : Form
     {
-        public static bool Ate;
+
         Graphics gPanel;
+
         float side;
-        Table table;
-        private bool selected;
-        private bool firstPlayer;
-        private Checker selectedChecker;
 
         SolidBrush black = new SolidBrush(Color.Black);
         SolidBrush red = new SolidBrush(Color.Red);
         SolidBrush yellow = new SolidBrush(Color.Yellow);
         SolidBrush blackChecker = new SolidBrush(Color.DarkSlateGray);
 
+        private Game game;
+        private Table table;
+
         public Form1()
         {
             InitializeComponent();
-            table = new Table(8);
-            table.Init();
-            firstPlayer = true;
-            Ate = false;
-            var t = new Thread(func1);
-            t.Start();
-        }
 
-        public void func1()
-        {
-            Thread.Sleep(1000);
-            
+            game = new Game(8);
+            table = game.table;
+
             gPanel = pictureBox1.CreateGraphics();
-            side = pictureBox1.Height / table.size;
+            side = pictureBox1.Height / game.table.size;
+
             Redraw();
         }
 
@@ -62,6 +55,11 @@ namespace Checkers
             // Draw checkers
             table.checkers.ToList()
                  .ForEach(checker => DrawChecker(checker));
+
+            if (game.selectedChecker != null)
+            {
+                DrawSelection(game.selectedChecker);
+            }
         }
 
         public int DrawCell(int x, int y, SolidBrush color)
@@ -126,105 +124,17 @@ namespace Checkers
             labelWinner.Text = red ? "Red wins" : "Black wins";
         }
 
-        private void CheckGameOver()
-        {
-            if (table.checkers.All(checker => checker.white))
-            {
-                GameOver(true);
-                return;
-            }
-
-            if (table.checkers.All(checker => !checker.white))
-            {
-                GameOver(false);
-            }
-        }
-
-        private static bool canEat;
-
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             var loc = new Point((int)((e.X) / side), (int)((e.Y) / side));
-            label1.Text = firstPlayer ? "Red " : "Black " + e.X + " " + e.Y + " | " + loc.x + " " + loc.y;
-            if (!selected)
-            {
-                selectedChecker = table.GetChecker(loc.x, loc.y);
-                if (selectedChecker == null)
-                    return;
-                
-                if (selectedChecker.white != firstPlayer)
-                    return;
+            label1.Text = game.firstPlayer ? "Red " : "Black " + e.X + " " + e.Y + " | " + loc.x + " " + loc.y;
 
-                selected = true;
-                DrawSelection(selectedChecker);
-                return;
-            }
-            
-            if (table.Move(selectedChecker, loc.x, loc.y))
-            {
-                table.CheckQueen(selectedChecker);
-                // If this move was "Eat"
-                if (Ate)
-                {
-                    // If selected checker can eat another time
-                    if (table.CanEat(table.GetChecker(loc.x, loc.y)))
-                    {
-                        selectedChecker = table.GetChecker(loc.x, loc.y);
-                        Redraw();
-                        DrawSelection(selectedChecker);
-                        selected = true;
-                        canEat = true;
-                        return;
-                    }
-                    else
-                    {
-                        // Change the player
-                        var playerLabel = firstPlayer ? labelBlack : labelRed;
-                        var score = Convert.ToInt32(playerLabel.Text);
-                        foreach (var removedChecker in table.removedCheckers)
-                        {
-                            score++;
-                            table.RemoveChecker(removedChecker);
-                        }
-                        table.removedCheckers.Clear();
-                        playerLabel.Text = score.ToString();
-                        // Check if the game is over
-                        CheckGameOver();
-                        firstPlayer = !firstPlayer;
-                        selected = false;
-                        canEat = false;
-                    }
-                }
-                else
-                {
-                    // Change the player
-                    var playerLabel = firstPlayer ? labelBlack : labelRed;
-                    var score = Convert.ToInt32(playerLabel.Text);
-                    foreach (var removedChecker in table.removedCheckers)
-                    {
-                        score++;
-                        table.RemoveChecker(removedChecker);
-                    }
-                    table.removedCheckers.Clear();
-                    playerLabel.Text = score.ToString();
-                    // Check if the game is over
-                    CheckGameOver();
-                    firstPlayer = !firstPlayer;
-                    selected = false;
-                    canEat = false;
-                }
-            }
-            else if (canEat)
-            {
-                Redraw();
-                DrawSelection(selectedChecker);
-                selected = true;
-                canEat = true;
-                return;
-            }
+            game.HandleClick(loc);
+
+            labelBlack.Text = game.blackScore.ToString();
+            labelRed.Text = game.whiteScore.ToString();
 
             Redraw();
-            selected = false;
         }
     }
 }

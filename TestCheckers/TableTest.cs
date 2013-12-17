@@ -77,14 +77,14 @@ namespace TestCheckers
             Checker checker = new Checker(5, 5, true);
             table.AddChecker(checker);
 
-            Assert.AreEqual(false, table.Move(checker, 4, 5));
-            Assert.AreEqual(false, table.Move(checker, 5, 6));
-            Assert.AreEqual(false, table.Move(checker, 6, 5));
-            Assert.AreEqual(false, table.Move(checker, 6, 4));
-            Assert.AreEqual(false, table.Move(checker, 5, 4));
-            Assert.AreEqual(false, table.Move(checker, 4, 4));
-            Assert.AreEqual(true, table.Move(checker, 6, 6));
-            Assert.AreEqual(true, table.Move(checker, 5, 7));
+            Assert.AreEqual(0, table.Move(checker, 4, 5));
+            Assert.AreEqual(0, table.Move(checker, 5, 6));
+            Assert.AreEqual(0, table.Move(checker, 6, 5));
+            Assert.AreEqual(0, table.Move(checker, 6, 4));
+            Assert.AreEqual(0, table.Move(checker, 5, 4));
+            Assert.AreEqual(0, table.Move(checker, 4, 4));
+            Assert.AreEqual(1, table.Move(checker, 6, 6));
+            Assert.AreEqual(1, table.Move(checker, 5, 7));
         }
         //проверка доски при движении одной белой шашки 
         [TestMethod]
@@ -116,10 +116,13 @@ namespace TestCheckers
             table.AddChecker(checker1);
             Checker checker2 = new Checker(6, 6, true);
             table.AddChecker(checker2);
-            Assert.AreEqual(false, table.Move(checker1, 6, 6));
+
+            Assert.AreEqual(0, table.Move(checker1, 6, 6));
+
             Checker checker3 = new Checker(4, 6, true);
             table.AddChecker(checker3);
-            Assert.AreEqual(false, table.Move(checker1, 4, 6));
+
+            Assert.AreEqual(0, table.Move(checker1, 4, 6));
         }
 
         [TestMethod]
@@ -132,12 +135,15 @@ namespace TestCheckers
             table.AddChecker(checker1);
             Checker checker2 = new Checker(6, 6, true);
             table.AddChecker(checker2);
-            Assert.AreEqual(true, table.Move(checker1, 7, 7));
+
+            Assert.AreEqual(2, table.Move(checker1, 7, 7));
+
             Checker checker3 = new Checker(4, 6, false);
             checker1 = new Checker(5, 5, false);
             table.AddChecker(checker1);
             table.AddChecker(checker3);
-            Assert.AreEqual(false, table.Move(checker1, 3, 7));
+
+            Assert.AreEqual(0, table.Move(checker1, 3, 7));
         }
 
         [TestMethod]

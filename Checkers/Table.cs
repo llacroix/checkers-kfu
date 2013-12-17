@@ -96,16 +96,19 @@ namespace Checkers
             int y = checker.y - step;
             int finishX = checker.x + step + 1;
             int finishY = checker.y + step + 1;
+
             while (x < 0 || y < 0)
             {
                 x++;
                 y++;
             }
+
             while (finishX > size || finishY > size)
             {
                 finishX--;
                 finishY--;
             }
+
             for (; x < finishX && y < finishY; x++, y++)
                 if (x != checker.x && y != checker.y)
                     points.Add(new Point(x, y));
@@ -120,11 +123,13 @@ namespace Checkers
                 x++;
                 y--;
             }
+
             while (finishX > size || finishY < -1)
             {
                 finishX--;
                 finishY++;
             }
+
             for (; x < finishX && y > finishY; x++, y--)
                 if (x != checker.x && y != checker.y)
                     points.Add(new Point(x, y));
@@ -253,17 +258,16 @@ namespace Checkers
             }
         }
 
-        public bool Move(Checker checker, int x, int y)
+        public int Move(Checker checker, int x, int y)
         {
             var result = CanMove(checker, x, y);
-            if (result == 0)
+
+            if (result != 0)
             {
-                return false;
+                checker.move(x, y);
             }
 
-            Form1.Ate = result == 2;
-            checker.move(x, y);
-            return true;
+            return result;
         }
 
         /// <summary>
