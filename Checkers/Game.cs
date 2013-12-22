@@ -68,7 +68,9 @@ namespace Checkers
 
             return (from checker in team
                     select (from move in table.GetMoves(checker)
-                            select table.CanMove(checker, move.x, move.y, false)).Sum()).Sum() == 0;
+                            select table.CanMove(checker, move.x, move.y, false)
+                            ).Any(x => x > 0)
+                    ).All(x => x == false);
         }
 
         public void HandleRemovedCheckers()
@@ -95,7 +97,7 @@ namespace Checkers
             else if (selectedChecker.white == firstPlayer)
             {
                 var movement = table.Move(selectedChecker, loc.x, loc.y);
-                // wtf
+               
                 Ate = (movement == 2);
 
                 if (movement != 0)
@@ -124,6 +126,7 @@ namespace Checkers
                 else
                 {
                     var newPick = table.GetChecker(loc.x, loc.y);
+
                     if (newPick != null && newPick.white == selectedChecker.white && movingChecker == null)
                         selectedChecker = newPick;
                 }
